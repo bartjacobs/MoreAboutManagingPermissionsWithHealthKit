@@ -24,19 +24,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // Show/Hide Button
-        enableHealthKitButton.hidden = !HKHealthStore.isHealthDataAvailable()
+        enableHealthKitButton.isHidden = !HKHealthStore.isHealthDataAvailable()
     }
 
     // MARK: - Actions
 
-    @IBAction func enableHealthKit(sender: AnyObject) {
+    @IBAction func enableHealthKit(_ sender: AnyObject) {
         var shareTypes = Set<HKSampleType>()
         shareTypes.insert(HKSampleType.workoutType())
 
         var readTypes = Set<HKObjectType>()
         readTypes.insert(HKObjectType.workoutType())
 
-        healthStore.requestAuthorizationToShareTypes(shareTypes, readTypes: readTypes) { (success, error) -> Void in
+        healthStore.requestAuthorization(toShare: shareTypes, read: readTypes) { (success, error) -> Void in
             if success {
                 print("success")
             } else {
