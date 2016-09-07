@@ -7,19 +7,30 @@
 //
 
 import UIKit
+import HealthKit
 
 class ViewController: UIViewController {
 
+    // MARK: - Properties
+    @IBOutlet var enableHealthKitButton: UIButton!
+
+    // MARK: -
+
+    lazy var healthStore = HKHealthStore()
+
+    // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        // Show/Hide Button
+        enableHealthKitButton.hidden = !HKHealthStore.isHealthDataAvailable()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: - Actions
+
+    @IBAction func enableHealthKit(sender: AnyObject) {
+        
     }
-
-
+    
 }
-
