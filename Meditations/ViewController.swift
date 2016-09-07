@@ -30,7 +30,21 @@ class ViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction func enableHealthKit(sender: AnyObject) {
-        
+        var shareTypes = Set<HKSampleType>()
+        shareTypes.insert(HKSampleType.workoutType())
+
+        var readTypes = Set<HKObjectType>()
+        readTypes.insert(HKObjectType.workoutType())
+
+        healthStore.requestAuthorizationToShareTypes(shareTypes, readTypes: readTypes) { (success, error) -> Void in
+            if success {
+                print("success")
+            } else {
+                print("failure")
+            }
+            
+            if let error = error { print(error) }
+        }
     }
-    
+
 }
