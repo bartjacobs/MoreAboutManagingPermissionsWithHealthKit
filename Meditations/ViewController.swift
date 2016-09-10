@@ -12,6 +12,7 @@ import HealthKit
 class ViewController: UIViewController {
 
     // MARK: - Properties
+    @IBOutlet var messageLabel: UILabel!
     @IBOutlet var enableHealthKitButton: UIButton!
 
     // MARK: -
@@ -23,8 +24,24 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Show/Hide Button
-        enableHealthKitButton.isHidden = !HKHealthStore.isHealthDataAvailable()
+        messageLabel.isHidden = true
+        enableHealthKitButton.isHidden = true
+
+        if HKHealthStore.isHealthDataAvailable() {
+            let authorizationStatus = healthStore.authorizationStatus(for: .workoutType())
+
+            if authorizationStatus == .notDetermined {
+                enableHealthKitButton.isHidden = false
+
+            } else if authorizationStatus == .sharingDenied {
+                messageLabel.isHidden = false
+                messageLabel.text = "Meditations doesn't have access to your workout data. You can enable access in the Settings application."
+            }
+
+        } else {
+            messageLabel.isHidden = false
+            messageLabel.text = "HealthKit is not available on this device."
+        }
     }
 
     // MARK: - Actions
